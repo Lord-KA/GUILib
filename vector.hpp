@@ -9,14 +9,14 @@ namespace g {
     private:
         class kernel {
         public:
-            size_t x;
-            size_t y;
+            int x;
+            int y;
 
         } ker;
 
     public:
         vector(const vector &other) : ker(other.ker) {}
-        vector(size_t x, size_t y)
+        vector(int x, int y)
         {
             ker.x = x;
             ker.y = y;
@@ -29,8 +29,8 @@ namespace g {
 
         ~vector()
         {
-            ker.x = NAN;
-            ker.y = NAN;
+            ker.x = -1;
+            ker.y = -1;
         }
 
         const kernel getKer() const
@@ -38,27 +38,37 @@ namespace g {
             return ker;
         }
 
-        vector operator+(const vector &other)
-        {
-            vector res(other);
-            res.ker.x += ker.x;
-            res.ker.y += ker.y;
-            return res;
-        }
-
-        vector operator-(const vector &other)
-        {
-            vector res(other);
-            res.ker.x -= ker.x;
-            res.ker.y -= ker.y;
-            return res;
-        }
-
-        vector operator*(size_t n)
+        vector operator+(const vector &other) const
         {
             vector res(*this);
-            res.ker.x *= n;
-            res.ker.y *= n;
+            res.ker.x += other.ker.x;
+            res.ker.y += other.ker.y;
+            return res;
+        }
+
+        vector operator-(const vector &other) const
+        {
+            vector res(*this);
+            res.ker.x -= other.ker.x;
+            res.ker.y -= other.ker.y;
+            return res;
+        }
+
+        vector operator-() const
+        {
+            vector res(*this);
+            res.ker.x *= -1;
+            res.ker.y *= -1;
+            return res;
+        }
+
+
+
+        vector operator*(double k) const
+        {
+            vector res(*this);
+            res.ker.x *= k;
+            res.ker.y *= k;
             return res;
         }
 
@@ -79,6 +89,11 @@ namespace g {
             out << "(" << p.ker.x << ", " << p.ker.y << ")";
             return out;
         }
+        friend vector operator*(double k, const vector &v)
+        {
+            return v * k;
+        }
     };
 
 }
+

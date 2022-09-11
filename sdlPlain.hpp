@@ -28,7 +28,7 @@ namespace g {
         void sdlSetup()
         {
             SDL_Init(SDL_INIT_VIDEO);
-            SDL_CreateWindowAndRenderer(height, width, 0, &window, &renderer);
+            SDL_CreateWindowAndRenderer(width, height, 0, &window, &renderer);
         }
 
         void sdlTeardown()
@@ -49,7 +49,7 @@ namespace g {
                 0x000000ff,         // red mask
                 0x0000ff00,         // green mask
                 0x00ff0000,         // blue mask
-                0x00000000);        // alpha mask (none)
+                0xff000000);        // alpha mask
 
             SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
             SDL_RenderCopy(renderer, texture, NULL, NULL);
