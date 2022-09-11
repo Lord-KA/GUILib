@@ -8,14 +8,14 @@
 namespace g {
     class plain
     {
-    private:
-        uint64_t h;
-        uint64_t w;
+    protected:
+        uint64_t width;
+        uint64_t height;
 
         color *window;
 
     public:
-        plain(uint64_t h, uint64_t w, color c = color::black) : h(h), w(w)
+        plain(uint64_t w, uint64_t h, color c = color::black) : width(w), height(h)
         {
             window = new color[h * w];
             assert(window);
@@ -27,32 +27,32 @@ namespace g {
         {
             assert(window);
             delete[] window;
-            h = -1;
-            w = -1;
+            height = -1;
+            width = -1;
         }
 
         uint64_t getHeight() const
         {
-            return h;
+            return height;
         }
 
         uint64_t getWidth() const
         {
-            return w;
+            return width;
         }
 
         inline const color operator()(uint64_t i, uint64_t j) const {
             assert(window);
-            assert(i < h && j < w);
-            return window[i * w + j];
+            assert(i < height && j < width);
+            return window[i * width + j];
         }
 
         inline color& operator()(uint64_t i, uint64_t j) {
             assert(window);
-            assert(i < h && j < w);
-            return window[i * w + j];
+            assert(i < height && j < width);
+            return window[i * width + j];
         }
 
-        virtual void render() const;
+        virtual void render() = 0;      // Non-const because GUI lib may change its own fields.
     };
 }

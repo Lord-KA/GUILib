@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <iostream>
 
 namespace g {
     class color
@@ -66,6 +67,12 @@ namespace g {
         bool operator==(const color other)
         {
             return (r == other.r && g == other.g && b == other.b);
+        }
+
+        friend std::ostream& operator<<(std::ostream &out, const color &c)
+        {
+            out << "(" << (int)c.r << ", " << (int)c.g << ", " << (int)c.b << ")";
+            return out;
         }
     };
 }
