@@ -29,12 +29,11 @@ namespace g {
         {
             SDL_Init(SDL_INIT_VIDEO);
             SDL_CreateWindowAndRenderer(height, width, 0, &window, &renderer);
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-            SDL_RenderClear(renderer);
         }
 
         void sdlTeardown()
         {
+            SDL_Delay(2000);
             SDL_DestroyRenderer(renderer);
             SDL_DestroyWindow(window);
             SDL_Quit();
@@ -42,30 +41,21 @@ namespace g {
 
         void render() override
         {
-        #if 0
-            size_t rmask = 0xff0000;
-            size_t gmask = 0x00ff00;
-            size_t bmask = 0x0000ff;
-            size_t amask = 0x000000;
-        #else
-            size_t rmask = 0x000000ff;
-            size_t gmask = 0x0000ff00;
-            size_t bmask = 0x00ff0000;
-            size_t amask = 0xff000000;
-        #endif
-
-            SDL_Surface *surface = SDL_CreateRGBSurfaceFrom((void*)window,
+            SDL_Surface *surface = SDL_CreateRGBSurfaceFrom((void*)pixels,
                 width,
                 height,
-                channels * 8,      // bits per pixel = 24
-                width * channels,  // pitch
-                rmask, gmask, bmask, 0);
+                channels * 8,       // bits per pixel = 24
+                width * channels,   // pitch
+                0x000000ff,         // red mask
+                0x0000ff00,         // green mask
+                0x00ff0000,         // blue mask
+                0x00000000);        // alpha mask (none)
 
             SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
             SDL_RenderCopy(renderer, texture, NULL, NULL);
             SDL_RenderPresent(renderer);
-            SDL_Delay(5000);
             SDL_FreeSurface(surface);
+            SDL_DestroyTexture(texture);
         }
     };
 }

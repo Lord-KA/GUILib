@@ -12,21 +12,21 @@ namespace g {
         uint64_t width;
         uint64_t height;
 
-        color *window;
+        color *pixels;
 
     public:
         plain(uint64_t w, uint64_t h, color c = color::black) : width(w), height(h)
         {
-            window = new color[h * w];
-            assert(window);
+            pixels = new color[h * w];
+            assert(pixels);
             for (uint64_t i = 0; i < h * w; ++i)
-                window[i] = c;
+                pixels[i] = c;
         }
 
         ~plain()
         {
-            assert(window);
-            delete[] window;
+            assert(pixels);
+            delete[] pixels;
             height = -1;
             width = -1;
         }
@@ -42,15 +42,15 @@ namespace g {
         }
 
         inline const color operator()(uint64_t i, uint64_t j) const {
-            assert(window);
+            assert(pixels);
             assert(i < height && j < width);
-            return window[i * width + j];
+            return pixels[i * width + j];
         }
 
         inline color& operator()(uint64_t i, uint64_t j) {
-            assert(window);
+            assert(pixels);
             assert(i < height && j < width);
-            return window[i * width + j];
+            return pixels[i * width + j];
         }
 
         virtual void render() = 0;      // Non-const because GUI lib may change its own fields.
