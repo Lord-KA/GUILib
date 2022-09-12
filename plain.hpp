@@ -59,6 +59,7 @@ namespace g {
 
         void draw(int x0, int y0, const vector &v, color col)
         {
+            assert(y0 < height && x0 < width);
             line l(x0, y0, v, 2);
             draw(l, col);
             vector ort(-v.getKer().y, v.getKer().x);

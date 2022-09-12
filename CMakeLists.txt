@@ -8,11 +8,12 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 # (you can also set it on the command line: -D CMAKE_BUILD_TYPE=Release)
 
-project(pairs)
+project(app)
 
 # Define sources and executable
-set(EXECUTABLE_NAME "pairs")
-add_executable(${EXECUTABLE_NAME} main.cpp pairs.cpp)
+set(EXECUTABLE_NAME "app")
+add_executable(${EXECUTABLE_NAME} test-app.cpp)
+add_executable(sfml test-sfml.cpp)
 
 # Detect and add SFML
 
@@ -31,4 +32,5 @@ if(SFML_FOUND)
   # SFML version >= 2.5
   #In SFML Version 2.5 or later, ${SFML_LIBRARIES}, ${SFML_DEPENDENCIES}, ${SFML_INCLUDE_DIR} no longer exist. Specify libraries individually.
   target_link_libraries(${PROJECT_NAME} sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
+  target_link_libraries(sfml sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
 endif()

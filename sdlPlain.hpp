@@ -33,7 +33,7 @@ namespace g {
 
         void sdlTeardown()
         {
-            SDL_Delay(2000);
+            SDL_Delay(2000);    // FIXME
             SDL_DestroyRenderer(renderer);
             SDL_DestroyWindow(window);
             SDL_Quit();

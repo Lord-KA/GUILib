@@ -38,6 +38,14 @@ namespace g {
             return ker;
         }
 
+        vector rotate(float angle) const
+        {
+            vector res;
+            res.ker.x = ker.x * std::cos(angle) - ker.y * std::sin(angle);
+            res.ker.y = ker.x * std::sin(angle) + ker.y * std::cos(angle);
+            return res;
+        }
+
         vector operator+(const vector &other) const
         {
             vector res(*this);
@@ -62,8 +70,6 @@ namespace g {
             return res;
         }
 
-
-
         vector operator*(double k) const
         {
             vector res(*this);
@@ -74,8 +80,8 @@ namespace g {
 
         vector& operator=(const vector &other)
         {
-            ker.x += other.ker.x;
-            ker.y += other.ker.y;
+            ker.x = other.ker.x;
+            ker.y = other.ker.y;
             return *this;
         }
 
