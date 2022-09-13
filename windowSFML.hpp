@@ -44,7 +44,6 @@ namespace g {
             };
 
             window->draw(line, 2, sf::Lines);
-            window->display();
         }
 
         void drawLine(const g::line &l, g::color c) override

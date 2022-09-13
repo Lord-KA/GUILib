@@ -1,5 +1,4 @@
 #include "windowSFML.hpp"
-#include <unistd.h>
 
 class app {
 private:
@@ -34,15 +33,16 @@ public:
         drawGrid(400, 20, 8, 8, 20, g::color::gray);
 
         right = right.rotate(0.1);
-        std::cout << right << std::endl;
+        #ifdef EXTRA_VERBOSE
+            std::cout << right << std::endl;
+        #endif
 
         window->drawVector(160, 160, left, g::color::red);
 
         window->drawVector(480, 100, right, g::color::blue);
 
+        sf::sleep(sf::microseconds(100000)); //TODO set up to ~60 FPS
 
-
-        sleep(1); // FIXME
         window->update();
     }
     void drawGrid(float x, float y, int w, int h, int d, g::color c)
