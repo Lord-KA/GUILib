@@ -19,7 +19,7 @@ namespace g {
             height = h;
             window = new sf::RenderWindow(sf::VideoMode(width, height), name);
             assert(window);
-            font.loadFromFile("../fonts/arial.ttf");
+            assert(font.loadFromFile("../fonts/arial.ttf"));
             window->setActive();
             window->clear();
             window->display();
