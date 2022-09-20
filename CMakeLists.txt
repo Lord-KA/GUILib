@@ -11,9 +11,11 @@ endif()
 project(app)
 
 include_directories(./)
+include_directories(./applications)
+include_directories(./utils)
 
 # Define sources and executable
-add_executable(vectors-app vectors-main.cpp)
+add_executable(vectors-app ./applications/vectors-main.cpp)
 
 find_package(SFML 2.5 COMPONENTS network audio graphics window system REQUIRED)
 if(SFML_FOUND)
@@ -23,5 +25,5 @@ endif()
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
-add_executable(sphere ./test/test-sphere.cpp)
+add_executable(sphere ./applications/sphere-main.cpp)
 target_link_libraries(sphere ${SDL2_LIBRARIES})
