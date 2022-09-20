@@ -10,6 +10,7 @@ namespace g {
     class windowSFML : public windowAbstr {
     private:
         sf::RenderWindow *window = NULL;
+        sf::Font font;
 
     public:
         windowSFML(int w, int h, char name[])
@@ -18,6 +19,7 @@ namespace g {
             height = h;
             window = new sf::RenderWindow(sf::VideoMode(width, height), name);
             assert(window);
+            font.loadFromFile("../fonts/arial.ttf");
             window->setActive();
             window->clear();
             window->display();
@@ -73,14 +75,31 @@ namespace g {
             window->display();
         }
 
-        void processEvents() override
-        {
+        g::event getEvent() {
+            sf::Event e;
+            if (!(window->pollEvent(e)))
+                return g::event(g::event::None);
 
+            sf::Vector2i pos = sf::Mouse::getPosition();
+            pos -= window->getPosition();
+
+            if (e.type == sf::Event::MouseButtonPressed)
+                return g::event(g::event::MousePress,   g::vector(pos.x, pos.y));
+            else if (e.type == sf::Event::MouseButtonReleased)
+                return g::event(g::event::MouseRelease, g::vector(pos.x, pos.y));
+
+            return g::event(g::event::Unsupported);
         }
 
-        void drawText(float x1, float y1, const std::string &text) override
+        void drawText(float x, float y, const std::string &t) override
         {
-
+            sf::Text text;
+            text.setFont(font);
+            text.setString(t);
+            text.setCharacterSize(24);
+            text.setFillColor(sf::Color(0, 0, 0));
+            text.setPosition(x, y);
+            window->draw(text);
         }
 
     };

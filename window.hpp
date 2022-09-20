@@ -7,6 +7,27 @@
 #include "line.hpp"
 
 namespace g {
+    class event {
+    public:
+        enum type_t {
+            None = 0,
+            Unsupported,
+            MousePress,
+            MouseRelease,
+        };
+
+        type_t type;
+        g::vector pos;
+
+        event(type_t t, g::vector p = g::vector(0, 0)) : type(t), pos(p) {};
+        event& operator=(const event &other)
+        {
+            type = other.type;
+            pos = other.pos;
+            return *this;
+        }
+    };
+
     class windowAbstr {
     protected:
         int width;
@@ -31,6 +52,6 @@ namespace g {
         virtual void drawText(float x, float y, const std::string &text) = 0;
         virtual void setBackground(g::color c) = 0;
         virtual void update() = 0;
-        virtual void processEvents() = 0;
+        virtual g::event getEvent() = 0;
     };
 }

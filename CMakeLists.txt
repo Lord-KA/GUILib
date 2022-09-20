@@ -11,9 +11,9 @@ endif()
 project(app)
 
 # Define sources and executable
-set(EXECUTABLE_NAME "app")
-add_executable(${EXECUTABLE_NAME} test-app.cpp)
-add_executable(sfml test-sfml.cpp)
+add_executable(vectors-app vectors-main.cpp)
+add_executable(sfml-test test-sfml.cpp)
+# add_executable(sphere-app test-sphere.cpp)
 
 # Detect and add SFML
 
@@ -31,6 +31,7 @@ if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})
   # SFML version >= 2.5
   #In SFML Version 2.5 or later, ${SFML_LIBRARIES}, ${SFML_DEPENDENCIES}, ${SFML_INCLUDE_DIR} no longer exist. Specify libraries individually.
-  target_link_libraries(${PROJECT_NAME} sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
-  target_link_libraries(sfml sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
+  target_link_libraries(vectors-app sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
+  # target_link_libraries(sphere-app sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
+  target_link_libraries(sfml-test sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
 endif()

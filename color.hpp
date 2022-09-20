@@ -10,18 +10,26 @@ namespace g {
         uint8_t r;
         uint8_t g;
         uint8_t b;
+
     public:
         enum preset {
-            black = 0,
-            gray,
-            red,
-            blue,
-            green,
-            white,
+            black   = 0x000000,
+            gray    = 0x808080,
+            red     = 0xff0000,
+            green   = 0x00ff00,
+            blue    = 0x0000ff,
+            white   = 0xffffff,
+            yellow  = 0xffff00,
         };
 
         color() : r(0), g(0), b(0) {}
         color(uint8_t r, uint8_t g, uint8_t b) : r(r), g(g), b(b) {}
+        color(int n)
+        {
+            r = (0xff0000 & n) / 0x10000;
+            g = (0x00ff00 & n) / 0x100;
+            b = 0x0000ff & n;
+        }
 
         uint8_t getR() const
         {
@@ -38,47 +46,15 @@ namespace g {
             return b;
         }
 
-        color(const preset &p)
+        color operator*(double k) const
         {
-            switch (p) {
-
-            case black:
-                r = 0;
-                g = 0;
-                b = 0;
-                break;
-
-            case gray:
-                r = 128;
-                g = 128;
-                b = 128;
-                break;
-
-            case red:
-                r = 255;
-                g = 0;
-                b = 0;
-                break;
-
-            case blue:
-                r = 0;
-                g = 0;
-                b = 255;
-                break;
-
-            case green:
-                r = 0;
-                g = 255;
-                b = 0;
-                break;
-
-            case white:
-                r = 255;
-                g = 255;
-                b = 255;
-                break;
-            }
+            color res(*this);
+            res.r *= k;
+            res.g *= k;
+            res.b *= k;
+            return res;
         }
+
         bool operator==(const color other)
         {
             return (r == other.r && g == other.g && b == other.b);

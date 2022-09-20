@@ -3,6 +3,6 @@
 int main()
 {
     app a;
-    while (true)
+    while (a.isAlive())
         a.run();
 }

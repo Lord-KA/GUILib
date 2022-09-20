@@ -11,7 +11,6 @@ static const size_t channels = sizeof(g::color);
 namespace g {
     class sdlPlain : public plain {
     private:
-        // XXX SDL_Event event;
         SDL_Renderer *renderer;
         SDL_Window *window;
 

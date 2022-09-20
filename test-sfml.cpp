@@ -8,7 +8,6 @@ int main()
     w.drawLine(10.f, 10.f, 200.f, 100.f, g::color::red);
 
     while (true) {
-        w.processEvents();
         w.update();
     }
 }
