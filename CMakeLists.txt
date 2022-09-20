@@ -10,9 +10,11 @@ endif()
 
 project(app)
 
+include_directories(./)
+
 # Define sources and executable
 add_executable(vectors-app vectors-main.cpp)
-add_executable(sfml-test test-sfml.cpp)
+add_executable(sfml-test ./test/test-sfml.cpp)
 # add_executable(sphere-app test-sphere.cpp)
 
 # Detect and add SFML

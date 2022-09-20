@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "vector.hpp"
+#include "vector2f.hpp"
 #include "color.hpp"
 
 #include "stdio.h" // FIXME
@@ -25,7 +25,7 @@ namespace g {
     public:
         line(const line &other) : ker(other.ker) {}
 
-        line(int x1, int y1, const vector v, int w = 1)
+        line(int x1, int y1, const vector2f v, int w = 1)
         {
             ker.x1 = x1;
             ker.y1 = y1;

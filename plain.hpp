@@ -5,7 +5,7 @@
 
 #include "color.hpp"
 #include "line.hpp"
-#include "vector.hpp"
+#include "vector2f.hpp"
 
 namespace g {
     class plain
@@ -57,14 +57,14 @@ namespace g {
 
         virtual void render() = 0;      // Non-const because GUI lib may change its own fields.
 
-        void draw(int x0, int y0, const vector &v, color col)
+        void draw(int x0, int y0, const vector2f &v, color col)
         {
             assert(y0 < height && x0 < width);
             line l(x0, y0, v, 2);
             draw(l, col);
-            vector ort(-v.getKer().y, v.getKer().x);
-            vector arr1 = ( ort - v * 1.6) * 0.1;
-            vector arr2 = (-ort - v * 1.6) * 0.1;
+            vector2f ort(-v.getKer().y, v.getKer().x);
+            vector2f arr1 = ( ort - v * 1.6) * 0.1;
+            vector2f arr2 = (-ort - v * 1.6) * 0.1;
             draw(line(l.getKer().x2, l.getKer().y2, arr1, 2), col);
             draw(line(l.getKer().x2, l.getKer().y2, arr2, 2), col);
         }

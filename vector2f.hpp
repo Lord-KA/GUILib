@@ -5,29 +5,29 @@
 
 namespace g {
 
-    class vector {
+    class vector2f {
     private:
         class kernel {
         public:
-            int x;
-            int y;
+            float x;
+            float y;
 
         } ker;
 
     public:
-        vector(const vector &other) : ker(other.ker) {}
-        vector(int x, int y)
+        vector2f(const vector2f &other) : ker(other.ker) {}
+        vector2f(float x, float y)
         {
             ker.x = x;
             ker.y = y;
         }
-        vector()
+        vector2f()
         {
             ker.x = 0;
             ker.y = 0;
         }
 
-        ~vector()
+        ~vector2f()
         {
             ker.x = -1;
             ker.y = -1;
@@ -38,64 +38,64 @@ namespace g {
             return ker;
         }
 
-        vector rotate(float angle) const
+        vector2f rotate(float angle) const
         {
-            vector res;
+            vector2f res;
             res.ker.x = ker.x * std::cos(angle) - ker.y * std::sin(angle);
             res.ker.y = ker.x * std::sin(angle) + ker.y * std::cos(angle);
             return res;
         }
 
-        vector operator+(const vector &other) const
+        vector2f operator+(const vector2f &other) const
         {
-            vector res(*this);
+            vector2f res(*this);
             res.ker.x += other.ker.x;
             res.ker.y += other.ker.y;
             return res;
         }
 
-        vector operator-(const vector &other) const
+        vector2f operator-(const vector2f &other) const
         {
-            vector res(*this);
+            vector2f res(*this);
             res.ker.x -= other.ker.x;
             res.ker.y -= other.ker.y;
             return res;
         }
 
-        vector operator-() const
+        vector2f operator-() const
         {
-            vector res(*this);
+            vector2f res(*this);
             res.ker.x *= -1;
             res.ker.y *= -1;
             return res;
         }
 
-        vector operator*(double k) const
+        vector2f operator*(double k) const
         {
-            vector res(*this);
+            vector2f res(*this);
             res.ker.x *= k;
             res.ker.y *= k;
             return res;
         }
 
-        vector& operator=(const vector &other)
+        vector2f& operator=(const vector2f &other)
         {
             ker.x = other.ker.x;
             ker.y = other.ker.y;
             return *this;
         }
 
-        bool operator==(const vector &other)
+        bool operator==(const vector2f &other)
         {
             return (ker.x == other.ker.x && ker.y == other.ker.y);
         }
 
-        friend std::ostream& operator<<(std::ostream &out, const vector &p)
+        friend std::ostream& operator<<(std::ostream &out, const vector2f &p)
         {
             out << "(" << p.ker.x << ", " << p.ker.y << ")";
             return out;
         }
-        friend vector operator*(double k, const vector &v)
+        friend vector2f operator*(double k, const vector2f &v)
         {
             return v * k;
         }

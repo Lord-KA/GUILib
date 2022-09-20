@@ -1,14 +1,14 @@
 #include "windowSFML.hpp"
 #include "button.hpp"
 
-static const g::vector leftDefault(120, -100);
-static const g::vector rightDefault(60, 60);
+static const g::vector2f leftDefault(120, -100);
+static const g::vector2f rightDefault(50, 50);
 
 class app {
 private:
     g::windowAbstr *window = NULL;
-    g::vector left;
-    g::vector right;
+    g::vector2f left;
+    g::vector2f right;
     g::button exitButton;
     g::button resetButton;
     bool alive = true;
@@ -61,7 +61,7 @@ public:
                     if (10 < x && x < 20 * 16 + 10 && 10 < y && y < 20 * 16 + 10) {   // inside left grid
                         std::cerr << "MouseButtonPressed at (" << x << ", " << y << ")\n";
 
-                        left = g::vector(ev.pos - g::vector(160, 160));
+                        left = ev.pos - g::vector2f(160, 160);
                     }
                 }
             }

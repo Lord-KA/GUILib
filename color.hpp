@@ -46,7 +46,7 @@ namespace g {
             return b;
         }
 
-        color operator*(double k) const
+        color operator*(float k) const
         {
             color res(*this);
             res.r *= k;

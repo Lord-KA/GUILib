@@ -12,7 +12,8 @@ namespace g {
 
     public:
         button() : window(NULL), x(-1), y(-1), h(-1), w(-1) {}
-        button(g::windowAbstr *window, int x, int y, int h, int w, const std::string &t) : window(window), x(x), y(y), h(h), w(w), text(t) {}
+        button(g::windowAbstr *window, int x, int y, int h, int w, const std::string &t)
+                    : window(window), x(x), y(y), h(h), w(w), text(t) {}
 
         void draw()
         {
