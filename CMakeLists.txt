@@ -15,12 +15,12 @@ include_directories(./applications)
 include_directories(./utils)
 
 # Define sources and executable
-add_executable(vectors-app ./applications/vectors-main.cpp)
+add_executable(vectors ./applications/vectors-main.cpp)
 
 find_package(SFML 2.5 COMPONENTS network audio graphics window system REQUIRED)
 if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})
-  target_link_libraries(vectors-app sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
+  target_link_libraries(vectors sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
 endif()
 
 find_package(SDL2 REQUIRED)

@@ -6,8 +6,6 @@
 #include "vector2f.hpp"
 #include "color.hpp"
 
-#include "stdio.h" // FIXME
-
 namespace g {
 
     class line {
