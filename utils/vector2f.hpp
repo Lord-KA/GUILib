@@ -15,7 +15,6 @@ namespace g {
         } ker;
 
     public:
-        vector2f(const vector2f &other) : ker(other.ker) {}
         vector2f(float x, float y)
         {
             ker.x = x;
@@ -25,12 +24,6 @@ namespace g {
         {
             ker.x = 0;
             ker.y = 0;
-        }
-
-        ~vector2f()
-        {
-            ker.x = -1;
-            ker.y = -1;
         }
 
         const kernel getKer() const
@@ -76,13 +69,6 @@ namespace g {
             res.ker.x *= k;
             res.ker.y *= k;
             return res;
-        }
-
-        vector2f& operator=(const vector2f &other)
-        {
-            ker.x = other.ker.x;
-            ker.y = other.ker.y;
-            return *this;
         }
 
         bool operator==(const vector2f &other)

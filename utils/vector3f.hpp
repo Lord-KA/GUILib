@@ -17,7 +17,6 @@ namespace g {
         } ker;
 
     public:
-        vector3f(const vector3f &other) : ker(other.ker) {}
         vector3f(int x, int y, int z)
         {
             ker.x = x;
@@ -29,13 +28,6 @@ namespace g {
             ker.x = 0;
             ker.y = 0;
             ker.z = 0;
-        }
-
-        ~vector3f()
-        {
-            ker.x = -1;
-            ker.y = -1;
-            ker.z = -1;
         }
 
         const kernel getKer() const
@@ -96,14 +88,6 @@ namespace g {
             res.ker.y /= k;
             res.ker.z /= k;
             return res;
-        }
-
-        vector3f& operator=(const vector3f &other)
-        {
-            ker.x = other.ker.x;
-            ker.y = other.ker.y;
-            ker.z = other.ker.z;
-            return *this;
         }
 
         float dot(const vector3f other) const

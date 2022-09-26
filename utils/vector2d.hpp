@@ -15,22 +15,16 @@ namespace g {
         } ker;
 
     public:
-        vector2d(const vector2d &other) : ker(other.ker) {}
         vector2d(int x, int y)
         {
             ker.x = x;
             ker.y = y;
         }
+
         vector2d()
         {
             ker.x = 0;
             ker.y = 0;
-        }
-
-        ~vector2d()
-        {
-            ker.x = -1;
-            ker.y = -1;
         }
 
         const kernel getKer() const
@@ -78,13 +72,6 @@ namespace g {
             return res;
         }
 
-        vector2d& operator=(const vector2d &other)
-        {
-            ker.x = other.ker.x;
-            ker.y = other.ker.y;
-            return *this;
-        }
-
         bool operator==(const vector2d &other)
         {
             return (ker.x == other.ker.x && ker.y == other.ker.y);
@@ -100,6 +87,5 @@ namespace g {
             return v * k;
         }
     };
-
 }
 
