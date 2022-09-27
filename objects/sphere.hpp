@@ -3,13 +3,11 @@
 #include "object3d.hpp"
 
 namespace g {
-    class sphere {
-    private:
+    class sphere : public object3d {
+    public:
         float rad;
 
-    public:
-        sphere(vector3f c, float r) : center(c), rad(r) {}
-
+        sphere(vector3f c, float r, g::material m) : object3d(c, m), rad(r) {}
 
     };
 }

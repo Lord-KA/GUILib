@@ -17,7 +17,7 @@ namespace g {
         } ker;
 
     public:
-        vector3f(int x, int y, int z)
+        vector3f(float x, float y, float z)
         {
             ker.x = x;
             ker.y = y;
@@ -129,7 +129,7 @@ namespace g {
             out << "(" << p.ker.x << ", " << p.ker.y << ", " << p.ker.z << ")";
             return out;
         }
-        friend vector3f operator*(double k, const vector3f &v)
+        friend vector3f operator*(float k, const vector3f &v)
         {
             return v * k;
         }

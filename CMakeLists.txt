@@ -13,6 +13,7 @@ project(app)
 include_directories(./)
 include_directories(./applications)
 include_directories(./utils)
+include_directories(./objects)
 
 # Define sources and executable
 add_executable(vectors ./applications/vectors-main.cpp)
@@ -27,3 +28,5 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 add_executable(sphere ./applications/sphere-main.cpp)
 target_link_libraries(sphere ${SDL2_LIBRARIES})
+
+add_executable(test-objects ./test/test-objects.cpp)
