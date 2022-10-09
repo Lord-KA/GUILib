@@ -16,17 +16,15 @@ include_directories(./utils)
 include_directories(./objects)
 
 # Define sources and executable
-add_executable(vectors ./applications/vectors-main.cpp)
+add_executable(raytracer ./applications/raytracer-main.cpp)
 
 find_package(SFML 2.5 COMPONENTS network audio graphics window system REQUIRED)
 if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})
-  target_link_libraries(vectors sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
+  # target_link_libraries(raytracer sfml-network sfml-audio sfml-graphics sfml-window sfml-system)
 endif()
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
-add_executable(sphere ./applications/sphere-main.cpp)
-target_link_libraries(sphere ${SDL2_LIBRARIES})
+target_link_libraries(raytracer ${SDL2_LIBRARIES})
 
-add_executable(test-objects ./test/test-objects.cpp)

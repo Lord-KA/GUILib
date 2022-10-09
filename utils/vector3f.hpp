@@ -95,6 +95,11 @@ namespace g {
             return ker.x * other.ker.x + ker.y * other.ker.y + ker.z * other.ker.z;
         }
 
+        float len() const
+        {
+            return std::sqrt(dot(*this));
+        }
+
         void rotY(float a)
         {
             ker.x =  std::cos(a) * ker.x + std::sin(a) * ker.z;
@@ -113,10 +118,21 @@ namespace g {
             ker.y = std::sin(a) * ker.x + std::cos(a) * ker.y;
         }
 
+        float sqDist(const vector3f &rhs) const
+        {
+            vector3f diff = rhs - *this;
+            return diff.dot(diff);
+        }
+
         vector3f normalize() const
         {
             float d = std::sqrt(dot(*this));
             return (*this) / d;
+        }
+
+        bool isNaN() const
+        {
+            return std::isnan(ker.x) || std::isnan(ker.y) || std::isnan(ker.z);
         }
 
         bool operator==(const vector3f &other)

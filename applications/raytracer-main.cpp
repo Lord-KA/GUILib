@@ -1,8 +1,8 @@
-#include "sphere-app.hpp"
+#include "raytracer-app.hpp"
 
 int main()
 {
-    sphere s;
+    raytracer s;
     while (s.isAlive()) {
         s.update();
     }

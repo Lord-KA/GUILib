@@ -55,6 +55,16 @@ namespace g {
             return res;
         }
 
+        color operator+(color rhs) const
+        {
+            color res(*this);
+            res.r += rhs.r;
+            res.g += rhs.g;
+            res.b += rhs.b;
+            return res;
+        }
+
+
         bool operator==(const color other)
         {
             return (r == other.r && g == other.g && b == other.b);
@@ -64,6 +74,11 @@ namespace g {
         {
             out << "(" << (int)c.r << ", " << (int)c.g << ", " << (int)c.b << ")";
             return out;
+        }
+
+        friend color operator*(float k, color c)
+        {
+            return c * k;
         }
     };
 }
