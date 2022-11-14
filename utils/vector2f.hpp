@@ -6,7 +6,7 @@
 namespace g {
 
     class vector2f {
-    private:
+    public:
         class kernel {
         public:
             float x;
@@ -14,7 +14,6 @@ namespace g {
 
         } ker;
 
-    public:
         vector2f(float x, float y)
         {
             ker.x = x;

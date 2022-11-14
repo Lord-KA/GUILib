@@ -5,6 +5,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "Events.hpp"
 #include "TextureManager.hpp"
 
 using size_t = long unsigned;
@@ -28,9 +29,10 @@ namespace gGUI {
         TextureManager::code code;
 
     public:
-        Widget(size_t x, size_t y, size_t w, size_t h, Widget *p = nullptr, TextureManager::code c = TextureManager::code::cnt)
+        Widget(size_t x, size_t y, size_t w, size_t h, Widget *p = nullptr, TextureManager::code c = TextureManager::code::badtexture)
                 : x(x), y(y), w(w), h(h), parent(p), manager(nullptr), code(c)
         {
+            std::cerr << "Widget created!\n";
             if (parent != nullptr) {
                 parent->add_child(this);
                 manager = parent->manager;
@@ -79,11 +81,12 @@ namespace gGUI {
             size_t cur_y = pos_y - parent_y - y;
             cur_x *= sprite.getLocalBounds().width  / w;
             cur_y *= sprite.getLocalBounds().height / h;
-            std::cerr << cur_x << ", " << cur_y << std::endl;
             sf::Color c = manager->images[code].getPixel(cur_x, cur_y);
             if (c.a == 0)
                 return nullptr;
             return (Widget*)this;
         }
+
+        virtual void emitSignals(Event ev) {}
     };
 }

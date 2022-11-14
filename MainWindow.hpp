@@ -2,7 +2,6 @@
 
 #include "color.hpp"
 #include "line.hpp"
-#include "event.hpp"
 #include "Widget.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -58,34 +57,34 @@ namespace gGUI {
             window->display();
         }
 
-        g::event getEvent()
+        Event getEvent()
         {
             sf::Event e;
             if (!(window->pollEvent(e)))
-                return g::event(g::event::None);
+                return Event(Event::None);
 
             sf::Vector2i pos = sf::Mouse::getPosition();
             pos -= window->getPosition();
 
             if (e.type == sf::Event::MouseButtonPressed)
-                return g::event(g::event::MousePress,   g::vector2f(pos.x, pos.y));
+                return Event(Event::MousePress,   g::vector2f(pos.x, pos.y));
             else if (e.type == sf::Event::MouseButtonReleased)
-                return g::event(g::event::MouseRelease, g::vector2f(pos.x, pos.y));
+                return Event(Event::MouseRelease, g::vector2f(pos.x, pos.y));
 
-            return g::event(g::event::Unsupported);
+            return Event(Event::Unsupported);
         }
 
     public:
-        MainWindow(int w, int h, char name[]) : Widget(0, 0, w, h, nullptr)
+        MainWindow(int w, int h, char name[]) : Widget(0, 0, w, h, nullptr, TextureManager::code::cnt)
         {
             window = new sf::RenderWindow(sf::VideoMode(w, h), name);
             assert(window);
+            manager = new TextureManager;
+            assert(manager);
             assert(font.loadFromFile("../fonts/arial.ttf"));
             window->setActive();
             window->clear();
             window->display();
-            manager = new TextureManager;
-            assert(manager);
         }
 
         ~MainWindow()
@@ -100,6 +99,10 @@ namespace gGUI {
         void run()
         {
             while (not is_closed) {
+                Event ev = getEvent();
+                Widget *callee = belongs(ev.pos.ker.x, ev.pos.ker.y);
+                if (callee)
+                    callee->emitSignals(ev);
                 draw(*window, 0, 0);
             }
         }
