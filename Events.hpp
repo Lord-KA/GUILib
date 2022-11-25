@@ -43,6 +43,8 @@ namespace gGUI {
         //std::function<void(Widget&, Event)> handler;
         std::vector<Signal*> signals;
         void disconnect(Signal &sig);
+        Slot() : widget(nullptr), handler(nullptr) {}
+        Slot(Widget *w, handler_t h) : widget(w), handler(h) {}
         ~Slot();
     };
 

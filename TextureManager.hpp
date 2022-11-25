@@ -12,6 +12,7 @@ namespace gGUI {
         enum code {
             button,
             badtexture,
+            buttonbg,
             cnt,
         };
 
@@ -44,6 +45,7 @@ namespace gGUI {
         char filenames[cnt][100] = {
             [button]     = "../textures/button.png",
             [badtexture] = "../textures/badtexture.png",
+            [buttonbg]   = "../textures/buttonbg.png",
         };
     };
 }

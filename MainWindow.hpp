@@ -75,6 +75,13 @@ namespace gGUI {
         }
 
     public:
+        void testSlots(Event ev)
+        {
+            std::cerr << "Button is pressed and slot in MainWindow activated!\n";
+        }
+
+        Slot testSlot = Slot(this, static_cast<handler_t>(&MainWindow::testSlots));
+
         MainWindow(int w, int h, char name[]) : Widget(0, 0, w, h, nullptr, TextureManager::code::cnt)
         {
             window = new sf::RenderWindow(sf::VideoMode(w, h), name);
@@ -100,9 +107,12 @@ namespace gGUI {
         {
             while (not is_closed) {
                 Event ev = getEvent();
-                Widget *callee = belongs(ev.pos.ker.x, ev.pos.ker.y);
-                if (callee)
-                    callee->emitSignals(ev);
+                if (ev.type != Event::Unsupported && ev.type != Event::None) {
+                    Widget *callee = belongs(ev.pos.ker.x, ev.pos.ker.y);
+                    printf("callee: %p\n", callee);
+                    if (callee)
+                        callee->emitSignals(ev);
+                }
                 draw(*window, 0, 0);
             }
         }

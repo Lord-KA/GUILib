@@ -10,6 +10,7 @@ namespace gGUI {
     public:
         Label(size_t x, size_t y, size_t w, size_t h, Widget *p, char *s) : Widget(x, y, w, h, p, TextureManager::code::badtexture), str(s)
         {
+            std::cerr << "LABEL!\n";
             assert(font.loadFromFile("../fonts/arial.ttf"));
             text.setFont(font);
             text.setString(str);
