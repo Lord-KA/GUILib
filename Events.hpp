@@ -4,9 +4,9 @@
 #include <functional>
 #include <cassert>
 
-// #include "Widget.hpp"
 #include "vector2f.hpp"
 
+#define SLOT_FUNC(macro_func) (static_cast<handler_t>(&macro_func))
 
 namespace gGUI {
 

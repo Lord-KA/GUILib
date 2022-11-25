@@ -8,7 +8,7 @@ namespace gGUI {
     class Button : public Widget
     {
     private:
-        Slot press = Slot(this, static_cast<handler_t>(&Button::pressHandler));
+        Slot press = Slot(this, SLOT_FUNC(Button::pressHandler));
         Slot release;
     public:
         Signal clicked;

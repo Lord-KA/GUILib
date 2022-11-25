@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include <cassert>
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -20,8 +20,10 @@ namespace gGUI {
         size_t w;
         size_t h;
 
+        bool isShown = true;
+
         Widget *parent;
-        std::list<Widget*> children;
+        std::vector<Widget*> children;
         TextureManager *manager;
 
         sf::Sprite sprite;
@@ -40,18 +42,20 @@ namespace gGUI {
         Widget(size_t x, size_t y, size_t w, size_t h, Widget *p = nullptr, TextureManager::code c = TextureManager::code::badtexture)
                 : x(x), y(y), w(w), h(h), parent(p), manager(nullptr), code(c)
         {
-            printf("Widget (%p) created!\n", this);
+            printf("Widget (%p) created with parent (%p)!\n", this, p);
             if (parent != nullptr) {
                 parent->add_child(this);
                 manager = parent->manager;
-                assert(manager != nullptr);
-                if (code != TextureManager::code::cnt)
+                // assert(manager != nullptr);
+                if (manager != nullptr && code != TextureManager::code::cnt)
                     setTexture(c);
             }
         }
 
         virtual void draw(sf::RenderWindow &window, size_t p_x, size_t p_y)
         {
+            if (not isShown)
+                return;
             sprite.setPosition(p_x + x, p_y + y);
             sprite.setColor(sf::Color::Red);
             window.draw(sprite);
@@ -67,16 +71,19 @@ namespace gGUI {
 
         virtual Widget* belongs(size_t pos_x, size_t pos_y, size_t parent_x = 0, size_t parent_y = 0) const
         {
+            for (auto child : children) {
+                Widget *res = child->belongs(pos_x, pos_y, parent_x + x, parent_y + y);
+                if (res)
+                    return res;
+            }
+
+            if (not isShown)
+                return nullptr;
+
             if ((pos_x <= x + parent_x) || (pos_y <= y + parent_y)
                     || (w <= pos_x - x - parent_x) || (h <= pos_y - y - parent_y))
                 return nullptr;
 
-            Widget *res = nullptr;
-            for (auto child : children) {
-                res = child->belongs(pos_x, pos_y, parent_x + x, parent_y + y);
-                if (res)
-                    return res;
-            }
             assert(manager);
             if (code >= TextureManager::code::cnt)
                 return nullptr;
@@ -91,13 +98,13 @@ namespace gGUI {
             return (Widget*)this;
         }
 
-        void move(size_t new_x, size_t new_y)
+        virtual void move(size_t new_x, size_t new_y)
         {
             x = new_x;
             y = new_y;
         }
 
-        void resize(size_t new_w, size_t new_h)
+        virtual void resize(size_t new_w, size_t new_h)
         {
             if (new_w != -1)
                 w = new_w;
@@ -125,6 +132,16 @@ namespace gGUI {
             return y;
         }
 
+        void show()
+        {
+            isShown = true;
+        }
+
+        void hide()
+        {
+            isShown = false;
+        }
+
         void setParent(Widget *w)
         {
             assert(w != nullptr);
@@ -132,6 +149,8 @@ namespace gGUI {
             manager = w->manager;
             assert(manager);
             setTexture(code);
+            for (auto ch : children)
+                ch->setParent(this);
         }
 
         virtual void emitSignals(Event ev) {}
