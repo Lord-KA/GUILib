@@ -82,7 +82,7 @@ namespace gGUI {
 
         Slot testSlot = Slot(this, static_cast<handler_t>(&MainWindow::testSlots));
 
-        MainWindow(int w, int h, char name[]) : Widget(0, 0, w, h, nullptr, TextureManager::code::cnt)
+        MainWindow(int w, int h, char name[]) : Widget(0, 0, w, h, nullptr, "NONE")
         {
             window = new sf::RenderWindow(sf::VideoMode(w, h), name);
             assert(window);

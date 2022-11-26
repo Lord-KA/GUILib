@@ -2,50 +2,48 @@
 
 #include <SFML/Graphics.hpp>
 #include <cassert>
+#include <string>
+#include <unordered_map>
 
 namespace gGUI {
     class TextureManager {
     public:
-        sf::Image   *images;
-        sf::Texture *textures;
-
-        enum code {
-            button,
-            badtexture,
-            buttonbg,
-            cnt,
-        };
+        std::unordered_map<std::string, sf::Texture> textures;
+        std::unordered_map<std::string, sf::Image> images;
 
         TextureManager()
         {
-            textures = new sf::Texture[cnt];
-            images   = new sf::Image[cnt];
-            assert(textures && images);
-            for (size_t i = 0; i < cnt; ++i) {
-                assert(images[i].loadFromFile(filenames[i]));
-                textures[i].loadFromImage(images[i]);
+            for (size_t i = 0; i < filenames.size(); ++i) {
+                const std::string &file = filenames[i];
+                std::string name = file.substr(file.rfind("/") + 1, file.rfind(".png") - file.rfind("/") - 1);
+                images[name] = sf::Image();
+                assert(images[name].loadFromFile(file));
+                textures[name] = sf::Texture();
+                assert(textures[name].loadFromImage(images[name]));
             }
         }
 
-        ~TextureManager()
+        const sf::Texture& operator[](const std::string &name)
         {
-            assert(textures && images);
-            delete[] textures;
-            delete[] images;
+            return get(name);
         }
 
-        const sf::Texture& operator[](size_t pos) const
+        const sf::Texture& get(const std::string &name)
         {
-            assert(textures);
-            assert(pos < cnt);
-            return textures[pos];
+            assert(name != "NONE");
+            if (not textures.contains(name)) {
+                assert(!"Not yet!");
+                assert(images[name].loadFromFile(name));
+                textures[name].loadFromImage(images[name]);
+            }
+            return textures[name];
         }
 
     private:
-        char filenames[cnt][100] = {
-            [button]     = "../textures/button.png",
-            [badtexture] = "../textures/badtexture.png",
-            [buttonbg]   = "../textures/buttonbg.png",
+        const std::vector<std::string> filenames = {
+            "../textures/button.png",
+            "../textures/badtexture.png",
+            "../textures/buttonbg.png",
         };
     };
 }

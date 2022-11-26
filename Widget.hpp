@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include <cassert>
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -28,27 +29,27 @@ namespace gGUI {
 
         sf::Sprite sprite;
 
-        TextureManager::code code;
+        std::string texture;
 
-        void setTexture(TextureManager::code c)
+        void setTexture(std::string t)
         {
             assert(manager != nullptr);
-            sprite.setTexture((*manager)[code]);
+            texture = t;
+            sprite.setTexture(manager->get(t));
             sprite.setScale(w / sprite.getLocalBounds().width,
                             h / sprite.getLocalBounds().height);
         }
 
     public:
-        Widget(size_t x, size_t y, size_t w, size_t h, Widget *p = nullptr, TextureManager::code c = TextureManager::code::badtexture)
-                : x(x), y(y), w(w), h(h), parent(p), manager(nullptr), code(c)
+        Widget(size_t x, size_t y, size_t w, size_t h, Widget *p = nullptr, std::string t = "badtexture")
+                : x(x), y(y), w(w), h(h), parent(p), manager(nullptr), texture(t)
         {
             printf("Widget (%p) created with parent (%p)!\n", this, p);
             if (parent != nullptr) {
                 parent->add_child(this);
                 manager = parent->manager;
-                // assert(manager != nullptr);
-                if (manager != nullptr && code != TextureManager::code::cnt)
-                    setTexture(c);
+                if (manager != nullptr and texture != "NONE")
+                    setTexture(texture);
             }
         }
 
@@ -57,7 +58,6 @@ namespace gGUI {
             if (not isShown)
                 return;
             sprite.setPosition(p_x + x, p_y + y);
-            sprite.setColor(sf::Color::Red);
             window.draw(sprite);
             for (auto child : children)
                 child->draw(window, p_x + x, p_y + y);
@@ -85,14 +85,14 @@ namespace gGUI {
                 return nullptr;
 
             assert(manager);
-            if (code >= TextureManager::code::cnt)
+            if (texture == "NONE")
                 return nullptr;
 
             size_t cur_x = pos_x - parent_x - x;
             size_t cur_y = pos_y - parent_y - y;
             cur_x *= sprite.getLocalBounds().width  / w;
             cur_y *= sprite.getLocalBounds().height / h;
-            sf::Color c = manager->images[code].getPixel(cur_x, cur_y);
+            sf::Color c = manager->images[texture].getPixel(cur_x, cur_y);
             if (c.a == 0)
                 return nullptr;
             return (Widget*)this;
@@ -148,7 +148,7 @@ namespace gGUI {
             parent = w;
             manager = w->manager;
             assert(manager);
-            setTexture(code);
+            setTexture(texture);
             for (auto ch : children)
                 ch->setParent(this);
         }

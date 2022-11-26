@@ -22,7 +22,19 @@ FetchContent_Declare(
 FetchContent_GetProperties(utils)
 if(NOT utils_POPULATED)
   FetchContent_Populate(utils)
-  include_directories(${googletest_SOURCE_DIR})
+  include_directories(${utils_SOURCE_DIR})
+endif()
+
+FetchContent_Declare(
+  commonTools
+  GIT_REPOSITORY https://github.com/mishaglik/Elpidifor-s-legacy.git
+  GIT_TAG        v1.1.0
+)
+
+FetchContent_GetProperties(commonTools)
+if(NOT commonTools_POPULATED)
+  FetchContent_Populate(commonTools)
+  include_directories(./build/_deps/commontools-src)
 endif()
 
 include_directories(./)

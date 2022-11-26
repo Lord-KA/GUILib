@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Widget.hpp"
 
 namespace gGUI {
@@ -8,7 +10,7 @@ namespace gGUI {
         Slot dropOut = Slot(this, SLOT_FUNC(DropOutMenu::handleDropOut));
         Slot pullUp  = Slot(this, SLOT_FUNC(DropOutMenu::handlePullUp));
         Slot toggle  = Slot(this, SLOT_FUNC(DropOutMenu::handleToggle));
-        DropOutMenu(size_t in_x, size_t in_y, size_t in_w, size_t in_h, Widget *p, char *name) : Widget(in_x, in_y, in_w, in_h, p, TextureManager::code::buttonbg)
+        DropOutMenu(size_t in_x, size_t in_y, size_t in_w, size_t in_h, Widget *p, char *name) : Widget(in_x, in_y, in_w, in_h, p, "buttonbg")
         {
             Button *action = new Button(0, 0, w, h, nullptr, name);
             action->setParent(this);

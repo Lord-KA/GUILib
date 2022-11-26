@@ -18,7 +18,7 @@ namespace gGUI {
             std::cerr << "Button pressed at (" << ev.pos.ker.x << ", " << ev.pos.ker.y << ")!\n";   //FIXME
         }
 
-        Button(size_t x, size_t y, size_t w, size_t h, Widget *p, char *str) : Widget(x, y, w, h, p, TextureManager::code::buttonbg)
+        Button(size_t x, size_t y, size_t w, size_t h, Widget *p, char *str) : Widget(x, y, w, h, p, "buttonbg")
         {
             clicked.connect(press);
             Label *text = new Label(10, 60, -1, h - 100, this, str);

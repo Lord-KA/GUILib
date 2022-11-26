@@ -8,7 +8,7 @@ namespace gGUI {
         sf::Font font;
         sf::Text text;
     public:
-        Label(size_t x, size_t y, size_t w, size_t h, Widget *p, char *s) : Widget(x, y, w, h, p, TextureManager::code::badtexture), str(s)
+        Label(size_t x, size_t y, size_t w, size_t h, Widget *p, char *s) : Widget(x, y, w, h, p, "badtexture"), str(s)
         {
             assert(font.loadFromFile("../fonts/arial.ttf"));
             text.setFont(font);
