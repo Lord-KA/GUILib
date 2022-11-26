@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <cassert>
 #include <string>
+#include <iostream>
 #include <unordered_map>
 
 namespace gGUI {
@@ -17,7 +18,10 @@ namespace gGUI {
                 const std::string &file = filenames[i];
                 std::string name = file.substr(file.rfind("/") + 1, file.rfind(".png") - file.rfind("/") - 1);
                 images[name] = sf::Image();
-                assert(images[name].loadFromFile(file));
+                if (not images[name].loadFromFile(file)) {
+                    std::cerr << "ERROR: no such image (" << name << ")\n";
+                    assert(false);
+                }
                 textures[name] = sf::Texture();
                 assert(textures[name].loadFromImage(images[name]));
             }
@@ -32,7 +36,6 @@ namespace gGUI {
         {
             assert(name != "NONE");
             if (not textures.contains(name)) {
-                assert(!"Not yet!");
                 assert(images[name].loadFromFile(name));
                 textures[name].loadFromImage(images[name]);
             }
@@ -44,6 +47,7 @@ namespace gGUI {
             "../textures/button.png",
             "../textures/badtexture.png",
             "../textures/buttonbg.png",
+            "../textures/panel.png",
         };
     };
 }

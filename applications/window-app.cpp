@@ -19,7 +19,7 @@ int main()
 
     gGUI::ToolSelect ts(0, 200, 1, 6, 40, &w);
     gGUI::Button b5(10, 10, 100, 100, &ts, "One");
-    gGUI::Button b6(90, 90, 100, 100, &ts, "Two");
+    gGUI::Button b6(90, 90, 100, 100, &ts, nullptr, "../textures/buttonbgmouseover.png");
     //gGUI::Canvas c(200, 200, 400, 400, &w);
 
     w.run();

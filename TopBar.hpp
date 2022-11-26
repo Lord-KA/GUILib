@@ -7,7 +7,7 @@ namespace gGUI {
     class TopBar : public Widget {
 
     public:
-        TopBar(MainWindow *p, size_t h = 100) : Widget(0, 0, p->getWidth(), h, p, "buttonbg") {}
+        TopBar(MainWindow *p, size_t h = 100) : Widget(0, 0, p->getWidth(), h, p, "panel") {}
 
         virtual void add_child(Widget *ch) override
         {
