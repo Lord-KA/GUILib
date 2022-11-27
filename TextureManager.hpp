@@ -48,6 +48,7 @@ namespace gGUI {
             "../textures/badtexture.png",
             "../textures/buttonbg.png",
             "../textures/panel.png",
+            "../textures/graypanel.png",
         };
     };
 }

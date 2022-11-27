@@ -7,7 +7,11 @@ namespace gGUI {
     class TopBar : public Widget {
 
     public:
-        TopBar(MainWindow *p, size_t h = 100) : Widget(0, 0, p->getWidth(), h, p, "panel") {}
+        TopBar(MainWindow *p, size_t h = 100) : Widget(0, 0, p->getWidth(), h, p, "graypanel")
+        {
+            assert(p->getTopBar() == nullptr);
+            p->setTopBar(this);
+        }
 
         virtual void add_child(Widget *ch) override
         {

@@ -37,8 +37,8 @@ namespace gGUI {
 
         virtual void resize(size_t new_w, size_t new_h) override
         {
-            (*children.begin())->resize(new_w, new_h);
             Widget::resize(new_w, new_h);
+            children[0]->resize(w, h);
         }
 
         void handleToggle(Event ev)

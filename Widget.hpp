@@ -71,14 +71,14 @@ namespace gGUI {
 
         virtual Widget* belongs(size_t pos_x, size_t pos_y, size_t parent_x = 0, size_t parent_y = 0) const
         {
+            if (not isShown)
+                return nullptr;
+
             for (auto child : children) {
                 Widget *res = child->belongs(pos_x, pos_y, parent_x + x, parent_y + y);
                 if (res)
                     return res;
             }
-
-            if (not isShown)
-                return nullptr;
 
             if ((pos_x <= x + parent_x) || (pos_y <= y + parent_y)
                     || (w <= pos_x - x - parent_x) || (h <= pos_y - y - parent_y))
@@ -154,5 +154,11 @@ namespace gGUI {
         }
 
         virtual void emitSignals(Event ev) {}
+
+        virtual void postload()
+        {
+            for (auto ch : children)
+                ch->postload();
+        }
     };
 }

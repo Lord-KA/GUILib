@@ -8,8 +8,19 @@
 #include <cassert>
 
 namespace gGUI {
+    class TopBar;
+    class ToolSetup;
+    class ToolPalette;
+    class Canvas;
+
     class MainWindow : public Widget
     {
+    protected:
+        TopBar      *topBar;
+        ToolSetup   *toolSetup;
+        ToolPalette *toolPalette;
+        Canvas      *canvas;
+
     private:
         sf::RenderWindow *window = NULL;
         sf::Font font;
@@ -59,17 +70,22 @@ namespace gGUI {
 
         Event getEvent()
         {
+            static sf::Vector2i pos;
+
             sf::Event e;
             if (!(window->pollEvent(e)))
                 return Event(Event::None);
 
-            sf::Vector2i pos = sf::Mouse::getPosition();
+            sf::Vector2i prev = pos;
+            pos = sf::Mouse::getPosition();
             pos -= window->getPosition();
 
             if (e.type == sf::Event::MouseButtonPressed)
                 return Event(Event::MousePress,   g::vector2f(pos.x, pos.y));
             else if (e.type == sf::Event::MouseButtonReleased)
                 return Event(Event::MouseRelease, g::vector2f(pos.x, pos.y));
+            else if (e.type == sf::Event::MouseMoved)
+                return Event(Event::MouseMoved, g::vector2f(pos.x, pos.y), g::vector2f(prev.x, prev.y));
 
             return Event(Event::Unsupported);
         }
@@ -103,8 +119,55 @@ namespace gGUI {
             manager = nullptr;
         }
 
+        void setTopBar(TopBar *tb)
+        {
+            assert(tb);
+            topBar = tb;
+        }
+
+        void setToolSetup(ToolSetup *ts)
+        {
+            assert(ts);
+            toolSetup = ts;
+        }
+
+        void setToolPalette(ToolPalette *tp)
+        {
+            assert(tp);
+            toolPalette = tp;
+        }
+
+        void setCanvas(Canvas *c)
+        {
+            assert(c);
+            canvas = c;
+        }
+
+
+        TopBar* getTopBar()
+        {
+            return topBar;
+        }
+
+        ToolSetup* getToolSetup()
+        {
+            return toolSetup;
+        }
+
+        ToolPalette* getToolPalette()
+        {
+            return toolPalette;
+        }
+
+        Canvas* getCanvas()
+        {
+            return canvas;
+        }
+
+
         void run()
         {
+            postload();
             while (not is_closed) {
                 Event ev = getEvent();
                 if (ev.type != Event::Unsupported && ev.type != Event::None) {

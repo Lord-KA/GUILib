@@ -19,12 +19,15 @@ namespace gGUI {
             Unsupported,
             MousePress,
             MouseRelease,
+            MouseMoved,
         };
 
         type_t type;
         g::vector2f pos;
+        g::vector2f prev;
+        uint64_t buttonID;
 
-        Event(type_t t, g::vector2f p = {0, 0}) : type(t), pos(p) {};
+        Event(type_t t, g::vector2f pos = {0, 0}, g::vector2f prev = {0, 0}) : type(t), pos(pos), prev(prev) {}
         Event& operator=(const Event &other)
         {
             type = other.type;

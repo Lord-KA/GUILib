@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Widget.hpp"
+#include "MainWindow.hpp"
 #include "color.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -16,11 +17,21 @@ namespace gGUI {
         bool modified = true;
 
     public:
-        Canvas(size_t in_x, size_t in_y, size_t in_w, size_t in_h, Widget *p, g::color c = g::color::white)
+        Signal MouseAct;
+
+        Canvas(size_t in_x, size_t in_y, size_t in_w, size_t in_h, MainWindow *p, g::color c = g::color::white)
             : Widget(in_x, in_y, in_w, in_h, p, "NONE")
         {
+            assert(parent);
+            parent->setCanvas(this);
             pixels = new color[w * h];
             assert(pixels != nullptr);
+        }
+
+        virtual void postload() override
+        {
+            MouseAct.connect(parent->getToolPalette()->CanvasMouseAct);
+            Widget::postload();
         }
 
         ~Canvas()
@@ -37,6 +48,12 @@ namespace gGUI {
         virtual uint32_t getW() override
         {
             return w;
+        }
+
+        virtual void emitSignals(Event ev)
+        {
+            auto p = parent->getToolPalette();
+            p->emitSignals(ev);
         }
 
         virtual color getPixel(int32_t x, int32_t y) override    //FIXME change to size_t when standart allowes

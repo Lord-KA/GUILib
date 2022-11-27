@@ -10,6 +10,7 @@ namespace gGUI {
     private:
         Slot press = Slot(this, SLOT_FUNC(Button::pressHandler));
         Slot release;
+        Label *text = nullptr;
     public:
         Signal clicked;
 
@@ -18,15 +19,24 @@ namespace gGUI {
             std::cerr << "Button pressed at (" << ev.pos.ker.x << ", " << ev.pos.ker.y << ")!\n";   //FIXME
         }
 
-        Button(size_t x, size_t y, size_t w, size_t h, Widget *p, char *str, std::string t = "buttonbg")
+        Button(size_t x, size_t y, size_t w, size_t h, Widget *p, const char *str, std::string t = "buttonbg")
             : Widget(x, y, w, h, p, t)
         {
-            clicked.connect(press);
             if (str != nullptr) {
-                Label *text = new Label(10, 60, -1, h - 100, this, str);
+                text = new Label(w, h, w, h, this, str);
                 add_child(text);
             }
         }
+
+        Button(Widget *p, std::string t = "buttonbg")
+            : Widget(-1, -1, -1, -1, p, t) {}
+
+        virtual void postload() override
+        {
+            clicked.connect(press);
+            Widget::postload();
+        }
+
 
         bool handle(const Event ev)
         {
@@ -37,8 +47,15 @@ namespace gGUI {
 
         void emitSignals(Event ev) override
         {
+            ev.buttonID = (uint64_t)this;
             if (ev.type == Event::MousePress)
                 clicked.call(ev);
+        }
+
+        virtual void resize(size_t new_w, size_t new_h) override
+        {
+            Widget::resize(new_w, new_h);
+            text->resize(w, h);
         }
     };
 }
