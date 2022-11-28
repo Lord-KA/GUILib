@@ -2,6 +2,7 @@
 
 #include "Widget.hpp"
 #include "MainWindow.hpp"
+#include "ToolPalette.hpp"
 #include "color.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -23,14 +24,14 @@ namespace gGUI {
             : Widget(in_x, in_y, in_w, in_h, p, "NONE")
         {
             assert(parent);
-            parent->setCanvas(this);
+            p->setCanvas(this);
             pixels = new color[w * h];
             assert(pixels != nullptr);
         }
 
         virtual void postload() override
         {
-            MouseAct.connect(parent->getToolPalette()->CanvasMouseAct);
+            MouseAct.connect(dynamic_cast<MainWindow*>(parent)->getToolPalette()->CanvasMAct);
             Widget::postload();
         }
 
@@ -52,36 +53,36 @@ namespace gGUI {
 
         virtual void emitSignals(Event ev)
         {
-            auto p = parent->getToolPalette();
+            auto p = dynamic_cast<MainWindow*>(parent)->getToolPalette();
             p->emitSignals(ev);
         }
 
-        virtual color getPixel(int32_t x, int32_t y) override    //FIXME change to size_t when standart allowes
+        virtual color getPixel(int32_t in_x, int32_t in_y) override    //FIXME change to size_t when standart allowes
         {
-            assert(0 <= x and x < w and 0 <= y and y < h);
-            return pixels[y * w + x];
+            assert(0 <= in_x and in_x < w and 0 <= in_y and in_y < h);
+            return pixels[in_y * w + in_x];
         }
 
-        virtual void putPixel(uint32_t x, uint32_t y, color c) override
+        virtual void putPixel(uint32_t in_x, uint32_t in_y, color c) override
         {
-            assert(x < w and y < h);
-            if (pixels[y * w + x] == c)
+            assert(in_x < w and in_y < h);
+            if (pixels[in_y * w + in_x] == c)
                 return;
-            pixels[y * w + x] = c;
+            pixels[in_y * w + in_x] = c;
             modified = true;
         }
 
-        virtual color& operator()(uint32_t x, uint32_t y)
+        virtual color& operator()(uint32_t in_x, uint32_t in_y)
         {
-            assert(x < w and y < h);
+            assert(in_x < w and in_y < h);
             modified = true;
-            return pixels[y * w + x];
+            return pixels[in_y * w + in_x];
         }
 
-        virtual const color& operator()(uint32_t x, uint32_t y) const
+        virtual const color& operator()(uint32_t in_x, uint32_t in_y) const
         {
-            assert(x < w and y < h);
-            return pixels[y * w + x];
+            assert(in_x < w and in_y < h);
+            return pixels[in_y * w + in_x];
         }
 
         virtual void draw(sf::RenderWindow &window, size_t p_x, size_t p_y)

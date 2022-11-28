@@ -6,9 +6,11 @@
 #include "ToolPalette.hpp"
 #include "forTools.hpp"
 
+#include "testTool.hpp"
+
 int main()
 {
-    gGUI::MainWindow w(800, 600, "Hello World");
+    gGUI::MainWindow w(1920, 1000, "Hello World");
     booba::MAINWINDOW = &w;
 
     gGUI::TopBar tb(&w, 60);
@@ -19,10 +21,21 @@ int main()
     gGUI::Button b3(90, 90, 100, 30, &dom, "Foo");
     gGUI::Button b4(10, 10, 100, 30, &dom, "Bar");
 
-    gGUI::ToolPalette ts(0, 200, 1, 6, 40, &w);
-    gGUI::Button b5(10, 10, 100, 100, &ts, "One");
-    gGUI::Button b6(90, 90, 100, 100, &ts, nullptr, "../textures/buttonbgmouseover.png");
-    gGUI::Canvas c(200, 200, 400, 400, &w);
+    gGUI::ToolPalette tp(0, 200, 6, 4, 40, &w);
+    gGUI::Button b5(10, 10, 100, 100, &tp, "One");
+    gGUI::Button b6(90, 90, 100, 100, &tp, nullptr, "../textures/buttonbgmouseover.png");
+    gGUI::Canvas c(300, 300, 600, 600, &w);
+
+    /*
+    gGUI::ToolSetup t(0, 500, 200, 400, &w);
+    w.setToolSetup(&t);
+    booba::createButton(0, 0, 100, 100, "MyButton");
+    */
+
+    tp.setToolSetupPos(0, 500, 200, 400);
+
+    booba::MyTool tool;
+    booba::addTool(&tool);
 
     w.run();
 }

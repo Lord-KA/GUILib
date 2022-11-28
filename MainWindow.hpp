@@ -3,6 +3,7 @@
 #include "color.hpp"
 #include "line.hpp"
 #include "Widget.hpp"
+#include "ToolSetup.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <cassert>
@@ -15,16 +16,16 @@ namespace gGUI {
 
     class MainWindow : public Widget
     {
-    protected:
-        TopBar      *topBar;
-        ToolSetup   *toolSetup;
-        ToolPalette *toolPalette;
-        Canvas      *canvas;
+    public:
+        TopBar      *topBar      = nullptr;
+        ToolSetup   *toolSetup   = nullptr;
+        ToolPalette *toolPalette = nullptr;
+        Canvas      *canvas      = nullptr;
 
     private:
         sf::RenderWindow *window = NULL;
         sf::Font font;
-        bool is_closed;
+        bool is_closed = false;
 
         void drawLine(float x1, float y1, float x2, float y2, g::color c)
         {
@@ -127,7 +128,10 @@ namespace gGUI {
 
         void setToolSetup(ToolSetup *ts)
         {
-            assert(ts);
+            if (toolSetup)
+                toolSetup->hide();
+            if (ts)
+                ts->show();
             toolSetup = ts;
         }
 
