@@ -36,7 +36,8 @@ namespace gGUI {
         {
             assert(name != "NONE");
             if (not textures.contains(name)) {
-                assert(images[name].loadFromFile(name));
+                if (not images[name].loadFromFile(name))
+                    images[name] = images["badtexture"];
                 textures[name].loadFromImage(images[name]);
             }
             return textures[name];
@@ -49,6 +50,8 @@ namespace gGUI {
             "../textures/buttonbg.png",
             "../textures/panel.png",
             "../textures/graypanel.png",
+            "../textures/blue_oval.png",
+            "../textures/darkgraypanel.png",
         };
     };
 }

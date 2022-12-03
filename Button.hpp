@@ -37,14 +37,6 @@ namespace gGUI {
             Widget::postload();
         }
 
-
-        bool handle(const Event ev)
-        {
-            if (ev.type == Event::MousePress) {
-                clicked.call(ev);
-            }
-        }
-
         void emitSignals(Event ev) override
         {
             ev.buttonID = (uint64_t)this;
@@ -55,7 +47,8 @@ namespace gGUI {
         virtual void resize(size_t new_w, size_t new_h) override
         {
             Widget::resize(new_w, new_h);
-            text->resize(w, h);
+            if (text)
+                text->resize(w, h);
         }
     };
 }

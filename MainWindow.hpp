@@ -7,6 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <cassert>
+#include <filesystem>
+#include <dlfcn.h>
 
 namespace gGUI {
     class TopBar;
@@ -167,6 +169,24 @@ namespace gGUI {
             return canvas;
         }
 
+        void initPlugins(std::string dir)
+        {
+            for (auto file : std::filesystem::directory_iterator(dir)) {
+                std::cerr << file.path().string() << "\n";
+                if (file.is_directory() or not file.path().string().ends_with(".aboba.so"))
+                    continue;
+
+                void* dlHandler = dlopen(file.path().c_str(), RTLD_LAZY);
+
+                if (dlHandler) {
+                    void (*init)()     = nullptr;
+                    *((void**)(&init)) = dlsym(dlHandler, "init_module");
+                    (*init)();
+                } else {
+                    fprintf(stderr, "ERROR: Unable to open plugin: %s\n", dlerror());
+                }
+            }
+        }
 
         void run()
         {

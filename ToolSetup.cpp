@@ -26,7 +26,7 @@ namespace gGUI {
 
     uint64_t ToolSetup::addSlider(size_t x, size_t y, size_t w, size_t h, size_t max, size_t cur)
     {
-        assert(!"no slider yet");
+        // assert(!"no slider yet");
         return 0;
     }
 }

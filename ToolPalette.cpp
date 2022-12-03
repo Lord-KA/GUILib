@@ -36,6 +36,10 @@ namespace gGUI {
 
     void ToolPalette::canvasMHandler(Event ev)
     {
+        auto tool = tools[(uint64_t)parent->getToolSetup()];
+        if (not tool)
+            return;
+
         //TODO traslate events
         booba::Event bev = {};
         if (ev.type == Event::MousePress) {
@@ -57,8 +61,7 @@ namespace gGUI {
         } else {
             assert(!"Event is not supported!");
         }
-        auto tool = tools[(uint64_t)parent->getToolSetup()];
-        assert(tool);
+        assert(parent->getCanvas());
         tool->apply(dynamic_cast<booba::Image*>(parent->getCanvas()), &bev);
     }
 

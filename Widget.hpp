@@ -116,6 +116,8 @@ namespace gGUI {
                 w = new_w;
             if (new_h != -1)
                 h = new_h;
+            sprite.setScale(w / sprite.getLocalBounds().width,
+                            h / sprite.getLocalBounds().height);
         }
 
         size_t getWidth() const
