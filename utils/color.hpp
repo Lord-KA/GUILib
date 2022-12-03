@@ -46,6 +46,11 @@ namespace g {
             return b;
         }
 
+        uint32_t toInt() const
+        {
+            return r * 0x1000000 + g * 0x10000 + b * 0x100 + 0xff;
+        }
+
         color operator*(float k) const
         {
             color res(*this);

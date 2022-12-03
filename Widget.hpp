@@ -21,6 +21,10 @@ namespace gGUI {
         size_t w;
         size_t h;
 
+        /* These are updated at every draw(). */
+        size_t global_x;
+        size_t global_y;
+
         bool isShown = true;
 
         Widget *parent;
@@ -57,7 +61,9 @@ namespace gGUI {
         {
             if (not isShown)
                 return;
-            sprite.setPosition(p_x + x, p_y + y);
+            global_x = p_x + x;
+            global_y = p_y + y;
+            sprite.setPosition(global_x, global_y);
             window.draw(sprite);
             for (auto child : children)
                 child->draw(window, p_x + x, p_y + y);
@@ -132,6 +138,15 @@ namespace gGUI {
             return y;
         }
 
+        size_t getGlobalX() const
+        {
+            return global_x;
+        }
+
+        size_t getGlobalY() const
+        {
+            return global_y;
+        }
         void show()
         {
             isShown = true;

@@ -22,20 +22,16 @@ int main()
     gGUI::Button b4(10, 10, 100, 30, &dom, "Bar");
 
     gGUI::ToolPalette tp(0, 200, 6, 4, 40, &w);
-    gGUI::Button b5(10, 10, 100, 100, &tp, "One");
-    gGUI::Button b6(90, 90, 100, 100, &tp, nullptr, "../textures/buttonbgmouseover.png");
     gGUI::Canvas c(300, 300, 600, 600, &w);
-
-    /*
-    gGUI::ToolSetup t(0, 500, 200, 400, &w);
-    w.setToolSetup(&t);
-    booba::createButton(0, 0, 100, 100, "MyButton");
-    */
 
     tp.setToolSetupPos(0, 500, 200, 400);
 
-    booba::MyTool tool;
-    booba::addTool(&tool);
+    booba::MyTool1 tool1;
+    booba::MyTool2 tool2;
+    booba::DrawTool tool3;
+    booba::addTool(&tool1);
+    booba::addTool(&tool2);
+    booba::addTool(&tool3);
 
     w.run();
 }

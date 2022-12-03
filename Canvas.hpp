@@ -16,6 +16,9 @@ namespace gGUI {
     protected:
         color *pixels = nullptr;
         bool modified = true;
+        bool usedArr = false;
+        sf::Image image;
+        sf::Texture texture;
 
     public:
         Signal MouseAct;
@@ -27,6 +30,7 @@ namespace gGUI {
             p->setCanvas(this);
             pixels = new color[w * h];
             assert(pixels != nullptr);
+            image.create(w, h, sf::Color(c.toInt()));
         }
 
         virtual void postload() override
@@ -53,8 +57,13 @@ namespace gGUI {
 
         virtual void emitSignals(Event ev)
         {
+            if (ev.type == Event::MouseMove || ev.type == Event::MousePress || ev.type == Event::MouseRelease) {
+                MouseAct.call(ev);
+            }
+            /*
             auto p = dynamic_cast<MainWindow*>(parent)->getToolPalette();
             p->emitSignals(ev);
+            */
         }
 
         virtual color getPixel(int32_t in_x, int32_t in_y) override    //FIXME change to size_t when standart allowes
@@ -69,6 +78,7 @@ namespace gGUI {
             if (pixels[in_y * w + in_x] == c)
                 return;
             pixels[in_y * w + in_x] = c;
+            image.setPixel(in_x, in_y, sf::Color(c));
             modified = true;
         }
 
@@ -76,6 +86,7 @@ namespace gGUI {
         {
             assert(in_x < w and in_y < h);
             modified = true;
+            usedArr = true;
             return pixels[in_y * w + in_x];
         }
 
@@ -91,14 +102,24 @@ namespace gGUI {
                 return;
             if (modified) {
                 assert(pixels != nullptr);
-                sf::Image image;
-                image.create(w, h, (uint8_t*)pixels);
-                sf::Texture texture;
+                if (usedArr)
+                    image.create(w, h, (uint8_t*)pixels);
                 texture.loadFromImage(image);
                 sprite.setTexture(texture);
                 modified = false;
+                usedArr = false;
             }
             Widget::draw(window, p_x, p_y);
+        }
+
+        virtual Widget *belongs(size_t pos_x, size_t pos_y, size_t parent_x = 0, size_t parent_y = 0) const override
+        {
+            if (not isShown)
+                return nullptr;
+            if ((pos_x <= x + parent_x) || (pos_y <= y + parent_y)
+                    || (w <= pos_x - x - parent_x) || (h <= pos_y - y - parent_y))
+                return nullptr;
+            return (Widget*)this;
         }
     };
 }

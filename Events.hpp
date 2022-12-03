@@ -19,15 +19,17 @@ namespace gGUI {
             Unsupported,
             MousePress,
             MouseRelease,
-            MouseMoved,
+            MouseMove,
         };
 
         type_t type;
         g::vector2f pos;
         g::vector2f prev;
+        bool leftButton;//TODO
         uint64_t buttonID;
 
         Event(type_t t, g::vector2f pos = {0, 0}, g::vector2f prev = {0, 0}) : type(t), pos(pos), prev(prev) {}
+        Event(type_t t, g::vector2f pos, bool left) : type(t), pos(pos), prev(prev), leftButton(left) {}
         Event& operator=(const Event &other)
         {
             type = other.type;
@@ -43,7 +45,6 @@ namespace gGUI {
     struct Slot {
         Widget *widget = NULL;
         handler_t handler;
-        //std::function<void(Widget&, Event)> handler;
         std::vector<Signal*> signals;
         void disconnect(Signal &sig);
         Slot() : widget(nullptr), handler(nullptr) {}
@@ -58,11 +59,4 @@ namespace gGUI {
         void call(Event ev);
         ~Signal();
     };
-
-    /*  //TODO
-    class EventManager {
-    private:
-        std::vector<Signal> signals;
-    };
-    */
 }

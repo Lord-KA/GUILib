@@ -80,13 +80,12 @@ namespace gGUI {
             sf::Vector2i prev = pos;
             pos = sf::Mouse::getPosition();
             pos -= window->getPosition();
-
             if (e.type == sf::Event::MouseButtonPressed)
-                return Event(Event::MousePress,   g::vector2f(pos.x, pos.y));
+                return Event(Event::MousePress,   g::vector2f(pos.x, pos.y), e.mouseButton.button == sf::Mouse::Button::Left);
             else if (e.type == sf::Event::MouseButtonReleased)
-                return Event(Event::MouseRelease, g::vector2f(pos.x, pos.y));
+                return Event(Event::MouseRelease, g::vector2f(pos.x, pos.y), e.mouseButton.button == sf::Mouse::Button::Left);
             else if (e.type == sf::Event::MouseMoved)
-                return Event(Event::MouseMoved, g::vector2f(pos.x, pos.y), g::vector2f(prev.x, prev.y));
+                return Event(Event::MouseMove, g::vector2f(pos.x, pos.y), g::vector2f(prev.x, prev.y));
 
             return Event(Event::Unsupported);
         }
@@ -177,8 +176,12 @@ namespace gGUI {
                 if (ev.type != Event::Unsupported && ev.type != Event::None) {
                     Widget *callee = belongs(ev.pos.ker.x, ev.pos.ker.y);
                     printf("callee: %p\n", callee);
-                    if (callee)
+                    if (callee) {
+                        // globax coords are updated at every draw()
+                        ev.pos.ker.x -= callee->getGlobalX();
+                        ev.pos.ker.y -= callee->getGlobalY();
                         callee->emitSignals(ev);
+                    }
                 }
                 draw(*window, 0, 0);
             }

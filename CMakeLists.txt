@@ -43,7 +43,7 @@ include_directories(./utils)
 include_directories(./objects)
 
 # Define sources and executable
-add_executable(window ./applications/window-app.cpp ./Events.cpp ./ToolSetup.cpp)
+add_executable(window ./applications/window-app.cpp ./Events.cpp ./ToolSetup.cpp ./ToolPalette.cpp)
 
 find_package(SFML 2.5 COMPONENTS network audio graphics window system REQUIRED)
 if(SFML_FOUND)

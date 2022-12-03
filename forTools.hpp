@@ -10,6 +10,8 @@ namespace booba {
     gGUI::MainWindow *MAINWINDOW = nullptr;
     ApplicationContext *APPCONTEXT = nullptr;
 
+    Image::~Image() {}
+
     uint64_t createButton(int32_t x, int32_t y, uint32_t w, uint32_t h, const char *text)
     {
         assert(MAINWINDOW);
