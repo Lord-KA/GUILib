@@ -10,8 +10,8 @@ namespace gGUI {
         void moveHandler(Event ev)
         {
             std::cerr << "Slider moved at (" << ev.pos.ker.x << ", " << ev.pos.ker.y << ")!\n";   //FIXME
-            size_t ratio = ev.pos.ker.x / w;
-            size_t cur = min + (max - min) * ratio;
+            double ratio = static_cast<double>(ev.pos.ker.x) / w;
+            cur = min + (max - min) * ratio;
             size_t new_w = ev.pos.ker.x;
             size_t f = (w + h) / 2 * 0.05;
             new_w = std::max(new_w, f);
@@ -23,9 +23,9 @@ namespace gGUI {
     public:
         Slot moveSlider = Slot(this, SLOT_FUNC(Slider::moveHandler));
         Signal moved;
-        const size_t min;
-        const size_t max;
-        size_t cur;
+        const int min;
+        const int max;
+        int cur;
 
         Slider(size_t x, size_t y, size_t w, size_t h, Widget *p, int min, int max, int cur, std::string bodyT = "darkgraypanel", std::string pointerT = "graypanel")
             : Widget(x, y, w, h, p, bodyT), min(min), max(max), cur(cur)
@@ -58,9 +58,11 @@ namespace gGUI {
 
         void emitSignals(Event ev) override
         {
-            ev.buttonID = (uint64_t)this;
+            ev.widgetID = (uint64_t)this;
             if (ev.type == Event::MousePress) {
                 moveHandler(ev);
+                ev.curSlider = cur;
+                std::cerr << "cur: " << cur << "\n";
                 moved.call(ev);
             }
         }

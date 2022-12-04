@@ -28,7 +28,9 @@ namespace gGUI {
     public:
         Slot SelectTool = Slot(this, SLOT_FUNC(ToolPalette::selectToolHandler));
         Slot CanvasMAct = Slot(this, SLOT_FUNC(ToolPalette::canvasMHandler));
-        Slot SetupTool  = Slot(this, SLOT_FUNC(ToolPalette::setupToolHandler));
+        Slot SetupToolB  = Slot(this, SLOT_FUNC(ToolPalette::setupToolBHandler));
+        Slot SetupToolS  = Slot(this, SLOT_FUNC(ToolPalette::setupToolSHandler));
+        Slot SetupToolC  = Slot(this, SLOT_FUNC(ToolPalette::setupToolCHandler));
 
         ToolPalette(size_t x, size_t y, size_t w_cnt, size_t h_cnt, size_t d, MainWindow *p);
 
@@ -38,11 +40,13 @@ namespace gGUI {
 
         void canvasMHandler(Event ev);
 
-        void setupToolHandler(Event ev);
+        void setupToolBHandler(Event ev);
+        void setupToolSHandler(Event ev);
+        void setupToolCHandler(Event ev);
 
         void setToolSetupPos(size_t x, size_t y, size_t w, size_t h);
 
-        void regButton(uint64_t buttonID);
+        void regButton(uint64_t widgetID);
 
         void addTool(booba::Tool *tool);
     };

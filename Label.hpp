@@ -16,7 +16,6 @@ namespace gGUI {
             assert(font.loadFromFile("../fonts/arial.ttf"));
             text.setFont(font);
             text.setString(str);
-            text.setCharacterSize(h);
             resize(-1, -1);
 #if 0
             text.setScale(w / text.getLocalBounds().width,

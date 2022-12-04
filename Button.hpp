@@ -39,7 +39,7 @@ namespace gGUI {
 
         void emitSignals(Event ev) override
         {
-            ev.buttonID = (uint64_t)this;
+            ev.widgetID = (uint64_t)this;
             if (ev.type == Event::MousePress)
                 clicked.call(ev);
         }

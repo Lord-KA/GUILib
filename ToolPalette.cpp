@@ -31,7 +31,7 @@ namespace gGUI {
 
     void ToolPalette::selectToolHandler(Event ev)
     {
-        parent->setToolSetup(toolSetups[ev.buttonID]);
+        parent->setToolSetup(toolSetups[ev.widgetID]);
     }
 
     void ToolPalette::canvasMHandler(Event ev)
@@ -65,15 +65,30 @@ namespace gGUI {
         tool->apply(dynamic_cast<booba::Image*>(parent->getCanvas()), &bev);
     }
 
-    void ToolPalette::setupToolHandler(Event ev)
+    void ToolPalette::setupToolBHandler(Event ev)
     {
         assert(ev.type == Event::MousePress);
         booba::Event bev = {};
         bev.type = booba::EventType::ButtonClicked;
-        bev.Oleg.bcedata.id = ev.buttonID;
-        tools[ev.buttonID]->apply(dynamic_cast<booba::Image*>(parent->getCanvas()), &bev);
+        bev.Oleg.bcedata.id = ev.widgetID;
+        tools[ev.widgetID]->apply(dynamic_cast<booba::Image*>(parent->getCanvas()), &bev);
     }
 
+    void ToolPalette::setupToolSHandler(Event ev)
+    {
+        assert(ev.type == Event::MousePress);
+        booba::Event bev = {};
+        bev.type = booba::EventType::ScrollbarMoved;
+        bev.Oleg.smedata.id = ev.widgetID;
+        bev.Oleg.smedata.value = ev.curSlider;
+        std::cerr << "value: " << ev.curSlider << "\n";
+        tools[ev.widgetID]->apply(dynamic_cast<booba::Image*>(parent->getCanvas()), &bev);
+    }
+
+    void ToolPalette::setupToolCHandler(Event ev)
+    {
+        assert(!"No canvas yet!");
+    }
     void ToolPalette::setToolSetupPos(size_t x, size_t y, size_t w, size_t h)
     {
         ts_x = x;
@@ -82,9 +97,9 @@ namespace gGUI {
         ts_h = h;
     }
 
-    void ToolPalette::regButton(uint64_t buttonID)
+    void ToolPalette::regButton(uint64_t widgetID)
     {
-        tools[buttonID] = curTool;
+        tools[widgetID] = curTool;
     }
 
     void ToolPalette::addTool(booba::Tool *tool)

@@ -67,7 +67,6 @@ namespace booba {
                         img->putPixel(x + i, y + j, RED);
                     }
             } else if (ev->type == EventType::ButtonClicked) {
-                fprintf(stderr, "buttonID = %x\n", ev->Oleg.bcedata.id);
                 active ^= 1;
             }
         }

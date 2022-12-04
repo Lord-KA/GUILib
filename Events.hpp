@@ -25,8 +25,9 @@ namespace gGUI {
         type_t type;
         g::vector2f pos;
         g::vector2f prev;
-        bool leftButton;//TODO
-        uint64_t buttonID;
+        bool leftButton;
+        uint64_t widgetID;
+        int curSlider;
 
         Event(type_t t, g::vector2f pos = {0, 0}, g::vector2f prev = {0, 0}) : type(t), pos(pos), prev(prev) {}
         Event(type_t t, g::vector2f pos, bool left) : type(t), pos(pos), prev(prev), leftButton(left) {}
