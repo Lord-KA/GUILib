@@ -3,6 +3,7 @@
 
 #include "MainWindow.hpp"
 #include "ToolSetup.hpp"
+#include "Canvas.hpp"
 
 #include "tools.hpp"
 
@@ -32,17 +33,19 @@ namespace booba {
 
     uint64_t createCanvas(int32_t x, int32_t y, int32_t w, int32_t h)    //FIXME rename after v2.0.0 standart release
     {
-        assert(!"no canvas for now");
+        assert(MAINWINDOW);
+        return MAINWINDOW->getToolSetup()->addCanvas(x, y, w, h);
     }
 
     void putPixel (uint64_t canvas, int32_t x, int32_t y, uint32_t color)
     {
-        assert(!"no canvas for now");
+        gGUI::Canvas *c = reinterpret_cast<gGUI::Canvas*>(canvas);
+        c->putPixel(x, y, color);
     }
 
     void putSprite(uint64_t canvas, int32_t x, int32_t y, uint32_t w, uint32_t h, const char* texture)
     {
-        assert(!"no canvas for now");
+        assert(!"no sprites for canvas yet");
     }
 
     void addTool(Tool* tool)
