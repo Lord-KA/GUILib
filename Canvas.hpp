@@ -31,12 +31,17 @@ namespace gGUI {
             pixels = new color[w * h];
             assert(pixels != nullptr);
             image.create(w, h, sf::Color(c.toInt()));
+
+            MouseAct.connect(dynamic_cast<MainWindow*>(parent)->getToolPalette()->CanvasMAct);
         }
 
-        virtual void postload() override
+        Canvas(size_t in_x, size_t in_y, size_t in_w, size_t in_h, Widget *p, g::color c = g::color::white)
+            : Widget(in_x, in_y, in_w, in_h, p, "NONE")
         {
-            MouseAct.connect(dynamic_cast<MainWindow*>(parent)->getToolPalette()->CanvasMAct);
-            Widget::postload();
+            assert(parent);
+            pixels = new color[w * h];
+            assert(pixels != nullptr);
+            image.create(w, h, sf::Color(c.toInt()));
         }
 
         ~Canvas()
@@ -57,6 +62,7 @@ namespace gGUI {
 
         virtual void emitSignals(Event ev)
         {
+            ev.widgetID = reinterpret_cast<uint64_t>(this);
             if (ev.type == Event::MouseMove || ev.type == Event::MousePress || ev.type == Event::MouseRelease) {
                 MouseAct.call(ev);
             }

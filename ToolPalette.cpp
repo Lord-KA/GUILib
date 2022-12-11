@@ -81,13 +81,24 @@ namespace gGUI {
         bev.type = booba::EventType::ScrollbarMoved;
         bev.Oleg.smedata.id = ev.widgetID;
         bev.Oleg.smedata.value = ev.curSlider;
-        std::cerr << "value: " << ev.curSlider << "\n";
         tools[ev.widgetID]->apply(dynamic_cast<booba::Image*>(parent->getCanvas()), &bev);
     }
 
     void ToolPalette::setupToolCHandler(Event ev)
     {
-        assert(!"No canvas yet!");
+        booba::Event bev = {};
+        if (ev.type == Event::MousePress)
+            bev.type = booba::EventType::CanvasMPressed;
+        else if (ev.type == Event::MouseRelease)
+            bev.type = booba::EventType::CanvasMReleased;
+        else if (ev.type == Event::MouseMove)
+            bev.type = booba::EventType::CanvasMMoved;
+        else
+            assert(!"Unknown event!");
+        bev.Oleg.smedata.id = ev.widgetID;
+        bev.Oleg.cedata.x = ev.pos.ker.x;
+        bev.Oleg.cedata.y = ev.pos.ker.y;
+        tools[ev.widgetID]->apply(dynamic_cast<booba::Image*>(parent->getCanvas()), &bev);
     }
     void ToolPalette::setToolSetupPos(size_t x, size_t y, size_t w, size_t h)
     {
