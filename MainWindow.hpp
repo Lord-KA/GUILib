@@ -24,6 +24,10 @@ namespace gGUI {
         ToolPalette *toolPalette = nullptr;
         Canvas      *canvas      = nullptr;
 
+        Widget *prevEvent = nullptr;
+
+        uint64_t startTime = -1;
+
     private:
         sf::RenderWindow *window = NULL;
         sf::Font font;
@@ -93,6 +97,8 @@ namespace gGUI {
         }
 
     public:
+        //FIXME create timer signal
+
         void testSlots(Event ev)
         {
             std::cerr << "Button is pressed and slot in MainWindow activated!\n";
@@ -194,6 +200,10 @@ namespace gGUI {
             while (not is_closed) {
                 Event ev = getEvent();
                 if (ev.type != Event::Unsupported && ev.type != Event::None) {
+                    if (prevEvent) {
+                        Event leaveEv(Event::MouseLeave);
+                        prevEvent->emitSignals(leaveEv);
+                    }
                     Widget *callee = belongs(ev.pos.ker.x, ev.pos.ker.y);
                     printf("callee: %p\n", callee);
                     if (callee) {

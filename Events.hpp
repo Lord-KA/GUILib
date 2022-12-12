@@ -20,6 +20,8 @@ namespace gGUI {
             MousePress,
             MouseRelease,
             MouseMove,
+            MouseLeave,
+            Timer,
         };
 
         type_t type;
@@ -27,7 +29,7 @@ namespace gGUI {
         g::vector2f prev;
         bool leftButton;
         uint64_t widgetID;
-        int curSlider;
+        long curSlider;
 
         Event(type_t t, g::vector2f pos = {0, 0}, g::vector2f prev = {0, 0}) : type(t), pos(pos), prev(prev) {}
         Event(type_t t, g::vector2f pos, bool left) : type(t), pos(pos), prev(prev), leftButton(left) {}

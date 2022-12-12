@@ -28,7 +28,7 @@ endif()
 FetchContent_Declare(
   commonTools
   GIT_REPOSITORY https://github.com/mishaglik/Elpidifor-s-legacy.git
-  GIT_TAG        v1.1.0
+  GIT_TAG        v2.0.1
 )
 
 FetchContent_GetProperties(commonTools)

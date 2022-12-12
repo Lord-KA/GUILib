@@ -11,41 +11,58 @@ namespace booba {
     gGUI::MainWindow *MAINWINDOW = nullptr;
     ApplicationContext *APPCONTEXT = nullptr;
 
-    Image::~Image() {}
-
-    uint64_t createButton(int32_t x, int32_t y, uint32_t w, uint32_t h, const char *text)
+    uint64_t createButton(size_t x, size_t y, size_t w, size_t h, const char *text)
     {
         assert(MAINWINDOW);
         return MAINWINDOW->getToolSetup()->addButton(x, y, w, h, text);
     }
 
-    uint64_t createLabel(int32_t x, int32_t y, uint32_t w, uint32_t h, const char *text)
+    uint64_t createLabel(size_t x, size_t y, size_t w, size_t h, const char *text)
     {
         assert(MAINWINDOW);
         return MAINWINDOW->getToolSetup()->addLabel(x, y, w, h, text);
     }
 
-    uint64_t createScrollbar(int32_t x, int32_t y, uint32_t w, uint32_t h, int32_t max, int32_t start)    //FIXME rename to `slider` after v2.0.0 standart release
+    uint64_t createSlider(size_t x, size_t y, size_t w, size_t h, long min, long max, long start)
     {
         assert(MAINWINDOW);
-        return MAINWINDOW->getToolSetup()->addSlider(x, y, w, h, max, start);
+        return MAINWINDOW->getToolSetup()->addSlider(x, y, w, h, min, max, start);
     }
 
-    uint64_t createCanvas(int32_t x, int32_t y, int32_t w, int32_t h)    //FIXME rename after v2.0.0 standart release
+    uint64_t createCanvas(size_t x, size_t y, size_t w, size_t h)    //FIXME rename after v3.0.0 standart release
     {
         assert(MAINWINDOW);
         return MAINWINDOW->getToolSetup()->addCanvas(x, y, w, h);
     }
 
-    void putPixel (uint64_t canvas, int32_t x, int32_t y, uint32_t color)
+    void putPixel (uint64_t canvas, size_t x, size_t y, uint32_t color)
     {
         gGUI::Canvas *c = reinterpret_cast<gGUI::Canvas*>(canvas);
-        c->putPixel(x, y, color);
+        c->setPixel(x, y, color);
     }
 
-    void putSprite(uint64_t canvas, int32_t x, int32_t y, uint32_t w, uint32_t h, const char* texture)
+    void putSprite(uint64_t canvas, size_t x, size_t y, size_t w, size_t h, const char* texture)
     {
         assert(!"no sprites for canvas yet");
+    }
+
+    GUID getGUID()
+    {
+        assert(!"no GUID yet");
+    }
+
+    bool setToolBarSize(size_t w, size_t h)
+    {
+        if (w > 1000 or h > 600)
+            return false;
+        MAINWINDOW->getToolPalette()->setToolSetupPos(-1, -1, w, h);
+        return true;
+    }
+
+    void cleanCanvas(uint64_t canvasId, uint32_t color)
+    {
+        gGUI::Canvas *c = reinterpret_cast<gGUI::Canvas*>(canvasId);
+        c->clear(color);
     }
 
     void addTool(Tool* tool)

@@ -25,9 +25,9 @@ namespace gGUI {
         return (uint64_t)(new Label(x, y, w, h, this, text));
     }
 
-    uint64_t ToolSetup::addSlider(size_t x, size_t y, size_t w, size_t h, size_t max, size_t cur)
+    uint64_t ToolSetup::addSlider(size_t x, size_t y, size_t w, size_t h, long min, long max, long cur)
     {
-        auto *s = new Slider(x, y, w, h, this, 0, max, cur);
+        auto *s = new Slider(x, y, w, h, this, min, max, cur);
         auto *palette = dynamic_cast<MainWindow*>(parent)->getToolPalette();
         s->moved.connect(palette->SetupToolS);
         palette->regButton((uint64_t)s);

@@ -14,6 +14,7 @@ namespace gGUI {
     {
         assert(parent);
         p->setToolPalette(this);
+        //TODO connect to MainWindow timer signal
     }
 
     void ToolPalette::add_child(Widget *ch)
@@ -77,7 +78,7 @@ namespace gGUI {
     {
         assert(ev.type == Event::MousePress);
         booba::Event bev = {};
-        bev.type = booba::EventType::ScrollbarMoved;
+        bev.type = booba::EventType::SliderMoved;
         bev.Oleg.smedata.id = ev.widgetID;
         bev.Oleg.smedata.value = ev.curSlider;
         tools[ev.widgetID]->apply(dynamic_cast<booba::Image*>(parent->getCanvas()), &bev);
@@ -92,8 +93,13 @@ namespace gGUI {
             bev.type = booba::EventType::CanvasMReleased;
         else if (ev.type == Event::MouseMove)
             bev.type = booba::EventType::CanvasMMoved;
+        else if (ev.type == Event::MouseLeave)
+            bev.type = booba::EventType::CanvasMLeft;
+        else if (ev.type == Event::Timer)
+            bev.type = booba::EventType::TimerEvent;
         else
             assert(!"Unknown event!");
+
         bev.Oleg.smedata.id = ev.widgetID;
         bev.Oleg.cedata.x = ev.pos.ker.x;
         bev.Oleg.cedata.y = ev.pos.ker.y;
@@ -101,10 +107,14 @@ namespace gGUI {
     }
     void ToolPalette::setToolSetupPos(size_t x, size_t y, size_t w, size_t h)
     {
-        ts_x = x;
-        ts_y = y;
-        ts_w = w;
-        ts_h = h;
+        if (x != -1)
+            ts_x = x;
+        if (y != -1)
+            ts_y = y;
+        if (w != -1)
+            ts_w = w;
+        if (h != -1)
+            ts_h = h;
     }
 
     void ToolPalette::regButton(uint64_t widgetID)

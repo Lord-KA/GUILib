@@ -13,7 +13,7 @@ namespace booba {
             std::cerr << "DEBUG: Called Apply!\n";
             for (size_t i = 0; i < 100; ++i)
                 for (size_t j = 0; j < 100; ++j)
-                    img->putPixel(i + 200, j + 40, RED);
+                    img->setPixel(i + 200, j + 40, RED);
         }
 
         virtual const char *getTexture() override
@@ -36,7 +36,7 @@ namespace booba {
             std::cerr << "DEBUG: Called Apply!\n";
             for (size_t i = 0; i < 100; ++i)
                 for (size_t j = 0; j < 100; ++j)
-                    img->putPixel(i + 40, j + 200, RED);
+                    img->setPixel(i + 40, j + 200, RED);
         }
 
         virtual const char *getTexture() override
@@ -64,7 +64,7 @@ namespace booba {
                 size_t y = ev->Oleg.mbedata.y;
                 for (size_t i = 0; i < 20; ++i)
                     for (size_t j = 0; j < 20; ++j) {
-                        img->putPixel(x + i, y + j, RED);
+                        img->setPixel(x + i, y + j, RED);
                     }
             } else if (ev->type == EventType::ButtonClicked) {
                 active ^= 1;
@@ -81,9 +81,4 @@ namespace booba {
             createButton(0, 100, 100, 100, "Draw");
         }
     };
-
-
-
-
-    Tool::~Tool() {};
 }
